@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.embed.swing.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <TabPane layoutY="-1.0" prefHeight="557.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab id="tab_Reg" fx:id="tab_RA" text="Registrar Alumno">
+               <content>
+                  <AnchorPane prefHeight="431.0" prefWidth="599.0">
+                     <children>
+                        <Label layoutX="109.0" layoutY="56.0" text="Nombre" />
+                        <Label layoutX="109.0" layoutY="114.0" text="Paterno" />
+                        <Label layoutX="109.0" layoutY="158.0" text="Fecha de Nacimiento" />
+                        <Label layoutX="316.0" layoutY="87.0" text="Apellido" />
+                        <TextField layoutX="165.0" layoutY="52.0" prefHeight="25.0" prefWidth="401.0" />
+                        <TextField layoutX="165.0" layoutY="110.0" prefHeight="25.0" prefWidth="160.0" />
+                        <Label layoutX="360.0" layoutY="114.0" text="Materno" />
+                        <TextField layoutX="406.0" layoutY="110.0" prefHeight="25.0" prefWidth="160.0" />
+                        <DatePicker layoutX="238.0" layoutY="154.0" prefHeight="25.0" prefWidth="169.0" />
+                        <Label layoutX="108.0" layoutY="347.0" text="Numero de Contacto" />
+                        <TextField layoutX="238.0" layoutY="343.0" prefHeight="25.0" prefWidth="178.0" />
+                        <Button layoutX="477.0" layoutY="454.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Registrar" />
+                        <Separator layoutX="1.0" layoutY="193.0" prefHeight="3.0" prefWidth="600.0" />
+                        <Label layoutX="258.0" layoutY="23.0" text="Datos Alumno" />
+                        <Label layoutX="257.0" layoutY="205.0" text="Datos Tutor" />
+                        <TextField layoutX="165.0" layoutY="245.0" prefHeight="25.0" prefWidth="401.0" />
+                        <Label layoutX="109.0" layoutY="249.0" text="Nombre" />
+                        <TextField layoutX="406.0" layoutY="293.0" prefHeight="25.0" prefWidth="160.0" />
+                        <Label layoutX="360.0" layoutY="297.0" text="Materno" />
+                        <TextField layoutX="165.0" layoutY="293.0" prefHeight="25.0" prefWidth="160.0" />
+                        <Label layoutX="316.0" layoutY="270.0" text="Apellido" />
+                        <Label layoutX="109.0" layoutY="297.0" text="Paterno" />
+                        <Label layoutX="109.0" layoutY="398.0" text="Correo electrónico" />
+                        <TextField layoutX="238.0" layoutY="394.0" prefHeight="25.0" prefWidth="178.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+          <Tab fx:id="tab_MA" text="Modificar Alumno">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="tab_EA" text="Eliminar Alumno">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="35.0" layoutY="78.0" text="Nombre" />
+                        <Label layoutX="35.0" layoutY="119.0" text="Apellido Paterno" />
+                        <Label layoutX="32.0" layoutY="157.0" text="Apellido Materno " />
+                        <TextField layoutX="151.0" layoutY="74.0" prefHeight="25.0" prefWidth="174.0" />
+                        <TextField layoutX="151.0" layoutY="115.0" prefHeight="25.0" prefWidth="174.0" />
+                        <TextField layoutX="151.0" layoutY="153.0" prefHeight="25.0" prefWidth="175.0" />
+                        <SwingNode layoutX="369.0" layoutY="32.0" />
+                        <SwingNode layoutX="115.0" layoutY="235.0" />
+                        <ToggleButton layoutX="417.0" layoutY="39.0" mnemonicParsing="false" text="Alumno/Tutor" />
+                        <Separator layoutY="222.0" prefHeight="1.0" prefWidth="590.0" />
+                        <TableView layoutX="68.0" layoutY="278.0" prefHeight="214.0" prefWidth="290.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <ToggleButton layoutX="417.0" layoutY="467.0" mnemonicParsing="false" text="se va a laverga" />
+                        <Label layoutX="252.0" layoutY="247.0" prefHeight="13.0" prefWidth="58.0" text="Resultados" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
