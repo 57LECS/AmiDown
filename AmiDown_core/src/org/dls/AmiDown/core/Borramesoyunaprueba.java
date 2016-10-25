@@ -23,29 +23,29 @@ public class Borramesoyunaprueba {
         try 
         {
             personaAlumno= new Persona();
-            personaAlumno.setIdPersona(2);            
-            personaAlumno.setNombre("Manuelasasasasasas1");
+            //personaAlumno.setIdPersona(12);            
+            personaAlumno.setNombre("a2");
             personaAlumno.setaPaterno("Mirandsssc");
             personaAlumno.setaMaterno("Castrsssssa");     
-            personaAlumno.setFechaNacimiento("06/06/1997");
+            personaAlumno.setFechaNacimiento("12/06/1997");
             personaAlumno.setTelefono("477456546a");
             personaAlumno.setCorreo("manolomirandaasc@hotmail.com");
             
             personaTutor= new Persona();
-            personaTutor.setIdPersona(2);
-            personaTutor.setNombre("Manuel Padre");            
+            //personaTutor.setIdPersona(13);
+            personaTutor.setNombre("Manuel Padre a1");            
             personaTutor.setaPaterno("Miranda");
             personaTutor.setaMaterno("Castro");
-            personaTutor.setFechaNacimiento("06/06/1967");
+            personaTutor.setFechaNacimiento("11/06/1967");
             personaTutor.setTelefono("477456546");
             personaTutor.setCorreo("manolomirandacpadre@hotmail.com");
                     
             alumno.setPersona(personaAlumno);
             t.setPersona(personaTutor);
             alumno.setTutor(t);
-            //ca.insertarAlumno(alumno);
+            ca.insertarAlumno(alumno);
             //ca.modificarAlumno(alumno);
-            ca.eliminarAlumno(alumno);
+            //ca.eliminarAlumno(alumno);
             System.out.println("El usuario se ha ingresado");
         }
         catch(Exception e){

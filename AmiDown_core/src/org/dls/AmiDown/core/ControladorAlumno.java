@@ -7,6 +7,9 @@ package org.dls.AmiDown.core;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import org.dls.AmiDown.db.ConexionSQLServer;
 import org.dls.AmiDown.model.Alumno;
 
@@ -79,7 +82,7 @@ public class ControladorAlumno {
         connSQLServer.cerrar();
     }
     
-    public void eliminarAlumno(Alumno al) throws Exception{
+    public void eliminarAlumno(Long id) throws Exception{
        String query = "EXEC dbo.EliminarAlumno ?";
         //String query ="EXEC dbo.InsertarAlumno @Matricula = "+al.getMatricula()+",@FechaIngreso ="+al.getFechaIngreso()",@Generacion ="+al.getGeneracion()+",@Estatus"+al.getStatus()+",@Nombre ="+al.getPersona().getNombre()+",@ApellidoPaterno="+al.getPersona().;
         ConexionSQLServer connSQLServer = new ConexionSQLServer();
@@ -88,12 +91,68 @@ public class ControladorAlumno {
         
         //Llenamos los parámetro de la consulta 
         //Parametros del alumno
-        pstmt.setLong(1, al.getPersona().getIdPersona());        
+        pstmt.setLong(1, id);        
                 
         pstmt.executeUpdate(); 
         
         pstmt.close();
         connSQLServer.cerrar();
     }
+
+    public   List<Alumno> buscarAlumnoNombre(String nombre) throws Exception
+    { List<Alumno> alumnos = new ArrayList<>();
     
+    String query = "EXEC dbo.buscarAlumnoNombre ?";
+        ConexionSQLServer connSQLServer = new ConexionSQLServer();
+        Connection conn = connSQLServer.abrir();
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        
+        //Llenamos los parámetro de la consulta 
+        //Parametros del alumno
+        pstmt.setString(1, nombre);        
+                
+        Alumno a;
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next()){
+            //Generamos un nuevo objeto de tipo Alumno
+            a = new Alumno();
+            a.setIdAlumno(rs.getInt("idAlumno")); 
+            a.getPersona().setNombre(rs.getString(1)); 
+            a.getPersona().setaMaterno(rs.getString(2));
+            a.getPersona().setaPaterno(rs.getString(3)); 
+            
+            alumnos.add(a);
+        }
+        rs.close();
+        pstmt.close();
+        conn.close();
+        return alumnos;
+     
+        }
+    
+    public List<Alumno> buscarTodosAlumnos() throws Exception
+        {
+            List<Alumno> alumnos = new ArrayList<>();
+    
+    String query = "EXEC dbo.BuscarAlumnosActivos ?";
+        ConexionSQLServer connSQLServer = new ConexionSQLServer();
+        Connection conn = connSQLServer.abrir();
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        Alumno a;
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next()){
+            //Generamos un nuevo objeto de tipo Alumno
+            a = new Alumno();
+            a.setIdAlumno(rs.getInt("idAlumno")); 
+            a.getPersona().setNombre(rs.getString("nombre")); 
+            a.getPersona().setaMaterno(rs.getString("apMaterno"));
+            a.getPersona().setaPaterno(rs.getString("apPaterno"));             
+            alumnos.add(a);
+        }
+        
+        rs.close();
+        pstmt.close();
+        conn.close();
+        return alumnos;
+            }
 }
