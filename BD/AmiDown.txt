@@ -1,0 +1,900 @@
+USE [master]
+GO
+/****** Object:  Database [AmiDown]    Script Date: 25/10/2016 11:45:52 ******/
+CREATE DATABASE [AmiDown]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'AmiDown', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\AmiDown.mdf' , SIZE = 4288KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'AmiDown_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\AmiDown_log.ldf' , SIZE = 1088KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [AmiDown] SET COMPATIBILITY_LEVEL = 120
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [AmiDown].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [AmiDown] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [AmiDown] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [AmiDown] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [AmiDown] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [AmiDown] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [AmiDown] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [AmiDown] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [AmiDown] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [AmiDown] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [AmiDown] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [AmiDown] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [AmiDown] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [AmiDown] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [AmiDown] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [AmiDown] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [AmiDown] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [AmiDown] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [AmiDown] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [AmiDown] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [AmiDown] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [AmiDown] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [AmiDown] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [AmiDown] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [AmiDown] SET  MULTI_USER 
+GO
+ALTER DATABASE [AmiDown] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [AmiDown] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [AmiDown] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [AmiDown] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+ALTER DATABASE [AmiDown] SET DELAYED_DURABILITY = DISABLED 
+GO
+USE [AmiDown]
+GO
+/****** Object:  UserDefinedFunction [dbo].[ObtenerIdHolder]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date, ,>
+-- Description:	<Description, ,>
+-- =============================================
+CREATE FUNCTION [dbo].[ObtenerIdHolder]
+(
+	-- Add the parameters for the function here
+	
+)
+RETURNS bigint
+AS
+BEGIN
+	-- Declare the return variable here
+	DECLARE @Resultado bigint = 0
+
+	-- Add the T-SQL statements to compute the return value here
+	SELECT @Resultado = sesu_valor from dbo.ID_HOLDER WHERE sesi_id = @@SPID
+
+	-- Return the result of the function
+	RETURN @Resultado
+
+END
+
+
+GO
+/****** Object:  Table [dbo].[Administrador]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Administrador](
+	[idAdministrador] [bigint] IDENTITY(1,1) NOT NULL,
+	[idPersona] [bigint] NOT NULL,
+	[idCredencial] [bigint] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idAdministrador] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Alumno]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Alumno](
+	[idAlumno] [bigint] IDENTITY(1,1) NOT NULL,
+	[idPersona] [bigint] NOT NULL,
+	[idTutor] [bigint] NOT NULL,
+	[estatus] [tinyint] NOT NULL,
+ CONSTRAINT [PK_Alumno] PRIMARY KEY CLUSTERED 
+(
+	[idAlumno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Credencial]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Credencial](
+	[idCredencial] [bigint] IDENTITY(1,1) NOT NULL,
+	[usuario] [varchar](50) NOT NULL,
+	[contrasenia] [varchar](250) NOT NULL,
+	[nivelAutorizacion] [tinyint] NOT NULL,
+	[estatus] [tinyint] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idCredencial] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Expediente]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Expediente](
+	[idExpediente] [bigint] IDENTITY(1,1) NOT NULL,
+	[idAlumno] [bigint] NOT NULL,
+	[antecedentesClinicos] [text] NOT NULL,
+	[descripcion] [text] NOT NULL,
+	[observaciones] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idExpediente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Grupo]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Grupo](
+	[idGrupo] [bigint] IDENTITY(1,1) NOT NULL,
+	[idMaestro] [bigint] NOT NULL,
+	[grado] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idGrupo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[GrupoAlumno]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[GrupoAlumno](
+	[idGrupoAlumno] [bigint] IDENTITY(1,1) NOT NULL,
+	[idAlumno] [bigint] NOT NULL,
+	[idGrupo] [bigint] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idGrupoAlumno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[ID_HOLDER]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ID_HOLDER](
+	[sesi_id] [bigint] NOT NULL,
+	[sesu_valor] [bigint] NOT NULL,
+ CONSTRAINT [PK_ID_HOLDER] PRIMARY KEY CLUSTERED 
+(
+	[sesi_id] ASC,
+	[sesu_valor] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Maestro]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Maestro](
+	[idMaestro] [bigint] IDENTITY(1,1) NOT NULL,
+	[idPersona] [bigint] NOT NULL,
+	[idCredencial] [bigint] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idMaestro] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Persona]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Persona](
+	[idPersona] [bigint] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](100) NOT NULL,
+	[apPaterno] [varchar](50) NOT NULL,
+	[apMaterno] [varchar](50) NULL,
+	[fechaNaciemiento] [date] NOT NULL,
+	[telefono] [varchar](15) NULL,
+	[correo] [varchar](250) NULL,
+	[fechaRegistro] [date] NOT NULL,
+ CONSTRAINT [PK_Persona] PRIMARY KEY CLUSTERED 
+(
+	[idPersona] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Psicologo]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Psicologo](
+	[idPsicologo] [bigint] IDENTITY(1,1) NOT NULL,
+	[idPersona] [bigint] NOT NULL,
+	[idCredencial] [bigint] NOT NULL,
+ CONSTRAINT [PK_Psicologo] PRIMARY KEY CLUSTERED 
+(
+	[idPsicologo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[PsicologoExpediente]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PsicologoExpediente](
+	[idPsicologoExpediente] [bigint] IDENTITY(1,1) NOT NULL,
+	[idPsicologo] [bigint] NOT NULL,
+	[idExpediente] [bigint] NOT NULL,
+	[fechaCreacion] [date] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idPsicologoExpediente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Sesion]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Sesion](
+	[idSesion] [bigint] IDENTITY(1,1) NOT NULL,
+	[idCrecencial] [bigint] NOT NULL,
+	[token] [varchar](250) NOT NULL,
+	[inicio] [datetime] NOT NULL,
+	[fin] [datetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idSesion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Tutor]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tutor](
+	[idTutor] [bigint] IDENTITY(1,1) NOT NULL,
+	[idPersona] [bigint] NOT NULL,
+ CONSTRAINT [PK_Tutor] PRIMARY KEY CLUSTERED 
+(
+	[idTutor] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  StoredProcedure [dbo].[BuscarAlumnoId]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[BuscarAlumnoId]
+(
+	@Identificador bigint
+)
+
+AS
+BEGIN
+	SELECT Alumno.idAlumno, Persona.nombre, Persona.apPaterno, Persona.apMaterno FROM dbo.Persona JOIN dbo.Alumno
+	ON Persona.idPersona = Alumno.idPersona
+	WHERE Persona.idPersona = @Identificador
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[BuscarAlumnoNombre]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[BuscarAlumnoNombre]
+(
+	@Nombre varchar(100)
+)
+
+AS
+BEGIN
+	SELECT Alumno.idAlumno, Persona.nombre, Persona.apPaterno, Persona.apMaterno FROM dbo.Persona JOIN dbo.Alumno
+	ON Persona.idPersona = Alumno.idPersona
+	WHERE Persona.nombre LIKE '%' + @Nombre + '%'
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[BuscarAlumnosActivos]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[BuscarAlumnosActivos]
+(
+	@Nombre varchar(100)
+)
+
+AS
+BEGIN
+	SELECT * FROM dbo.Persona JOIN dbo.Alumno
+	ON Persona.idPersona = Alumno.idPersona
+	WHERE Alumno.estatus = 1
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[CrearIdHolder]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Manuel Andre Miranda Castro>
+-- Create date: <17/10/2016,,>
+-- Description:	<creamos un trigger para poder obtener el valor verdadero de la sesión,,>
+-- =============================================
+create PROCEDURE [dbo].[CrearIdHolder]
+	-- Add the parameters for the stored procedure here
+	@Valor bigint
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	INSERT INTO dbo.ID_HOLDER (sesi_id,sesu_valor) values (@@SPID,@Valor);
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[EliminarAlumno]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[EliminarAlumno]
+	@idAlumno bigint
+AS
+BEGIN
+	SET NOCOUNT ON;
+	DECLARE @xml xml
+	DECLARE @mensaje xml
+
+	SET @xml = '<Mensaje></Mensaje>'
+    UPDATE dbo.Alumno SET estatus = 0
+	WHERE idAlumno = @idAlumno
+
+	SET @mensaje = (SELECT estatus FROM dbo.Alumno WHERE idAlumno = @idAlumno FOR XML PATH(''),ELEMENTS)
+
+	SET @xml.modify('insert sql:variable("@mensaje") as last into (/Mensaje)[1]')
+	SELECT @xml AS Respuesta
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[EliminarEmpleado]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[EliminarEmpleado]
+	@idCredencial bigint
+AS
+BEGIN
+	SET NOCOUNT ON;
+	DECLARE @xml xml
+	DECLARE @mensaje xml
+	SET @xml = '<Mensaje></Mensaje>'
+    UPDATE dbo.Credencial SET estatus = 0
+	WHERE idCredencial = @idCredencial
+	SET @mensaje = (SELECT estatus FROM dbo.Credencial WHERE idCredencial = @idCredencial FOR XML PATH(''),ELEMENTS)
+
+	SET @xml.modify('insert sql:variable("@mensaje") as last into (/Mensaje)[1]')
+	SELECT @xml AS Respuesta
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[InsertarAlumno]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[InsertarAlumno](
+	-- Add the parameters for the stored procedure here
+--@IdAlumno INT,								  								 
+								  --Alumno,
+								  @nombre VARCHAR(50),
+								  @apPaterno VARCHAR(50),
+								  @apMaterno VARCHAR(50),								  								  								  								  								  
+								  @correo VARCHAR(50),
+								  @telefono VARCHAR(50),								  
+								  @fechaNacimiento VARCHAR(10),
+								  --Tutor
+								  @NombreT VARCHAR(50),
+								  @apPaternoT VARCHAR(50),
+								  @apMaternoT VARCHAR(50),
+								  @fechaNacimientoT VARCHAR(10),
+								  @telefonoT VARCHAR(50),									  								  								  								  								  
+								  @correoT VARCHAR(50)
+								  							 								  ) AS
+	BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRAN InsAl
+	BEGIN TRY 
+	DECLARE @IdTutor BIGINT
+	DECLARE @IdTutorB BIGINT
+	DECLARE @IdPersona BIGINT
+	DECLARE @correoRegistrado varchar(50)
+	DECLARE @correoRegistradoT varchar(50)
+	SELECT @correoRegistrado = Correo FROM Persona WHERE correo = @correo;
+	SELECT @correoRegistradoT = correo FROM Persona WHERE correo =@correoT;
+	DECLARE @xml xml
+	DECLARE @mensaje xml
+	DECLARE @idAlumno bigint
+
+	
+		IF @correoRegistradoT = NULL
+			BEGIN
+			INSERT INTO PERSONA (nombre ,apMaterno, apPaterno,
+			fechaNaciemiento,telefono,correo,fechaRegistro)
+			VALUES (@Nombre,@apMaterno,@apPaterno,Cast(@FechaNacimiento AS DATE),
+			@telefono,@correo,GETDATE())
+			SET @IdPersona = dbo.ObtenerIdHolder()
+			EXEC dbo.LiberarHolder
+
+				INSERT INTO PERSONA (nombre ,apMaterno, apPaterno,
+				fechaNaciemiento,telefono,correo,fechaRegistro)
+				VALUES (@NombreT,@apMaternoT,@apPaternoT,Cast(@fechaNacimientoT AS DATE),
+				@telefonoT,@correoT,GETDATE())
+		
+			SET @IdTutor = dbo.ObtenerIdHolder()
+			EXEC dbo.LiberarHolder
+			INSERT INTO Tutor (idPersona) VALUES (@IdTutor)
+			INSERT INTO Alumno (idPersona,idTutor,estatus) VALUES(@IdPersona,@IdTutor,1)			
+
+			SELECT @idAlumno= idAlumno FROM Alumno WHERE idPersona = @IdPersona
+			SET @xml = '<Mensaje></Mensaje>'
+
+			SET @mensaje = (SELECT estatus FROM dbo.Alumno WHERE idAlumno = @idAlumno FOR XML PATH(''),ELEMENTS)
+
+			SET @xml.modify('insert sql:variable("@mensaje") as last into (/Mensaje)[1]')
+			SELECT @xml AS Respuesta
+			END
+		ELSE			
+			BEGIN
+			INSERT INTO PERSONA (nombre ,apMaterno, apPaterno,
+				fechaNaciemiento,telefono,correo,fechaRegistro)
+				VALUES (@Nombre,@apMaterno,@apPaterno,Cast(@FechaNacimiento AS DATE),
+				@telefono,@correo,GETDATE())
+				SET @IdPersona = dbo.ObtenerIdHolder()
+				EXEC dbo.LiberarHolder
+	
+					INSERT INTO PERSONA (nombre ,apMaterno, apPaterno,
+					fechaNaciemiento,telefono,correo,fechaRegistro)
+					VALUES (@NombreT,@apMaternoT,@apPaternoT,Cast(@fechaNacimientoT AS DATE),
+					@telefonoT,@correoT,GETDATE())
+				SELECT @IdTutorB = Persona.idPersona FROM Persona WHERE correo = @correoT
+				SELECT @IdTutor = idTutor FROM Tutor WHERE idPersona = @IdTutorB
+				INSERT INTO Alumno (idPersona,idTutor,estatus) VALUES(@IdPersona,@IdTutor,1)
+				SELECT @idAlumno= idAlumno FROM Alumno WHERE idPersona = @IdPersona
+				SET @xml = '<Mensaje></Mensaje>'
+
+				SET @mensaje = (SELECT estatus FROM dbo.Alumno WHERE idAlumno = @idAlumno FOR XML PATH(''),ELEMENTS)
+
+				SET @xml.modify('insert sql:variable("@mensaje") as last into (/Mensaje)[1]')
+				SELECT @xml AS Respuesta				
+		END
+
+	COMMIT TRAN InsAl
+		END TRY
+		BEGIN CATCH
+		ROLLBACK TRAN InsAl 
+		SELECT @@ERROR Error 
+		END CATCH 
+		END
+GO
+/****** Object:  StoredProcedure [dbo].[InsertarEmpleado]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[InsertarEmpleado](
+	-- Add the parameters for the stored procedure here
+--@IdAlumno INT,								  								 
+								  --Alumno,
+								  @nombre VARCHAR(50),
+								  @apPaterno VARCHAR(50),
+								  @apMaterno VARCHAR(50),
+								  @fechaNacimiento VARCHAR(10),
+								  @telefono VARCHAR(50),								  								  								  								  								  
+								  @correo VARCHAR(50),
+								  								  								  
+								  --Tutor
+								  @usuario VARCHAR(50),
+								  @contrasenia VARCHAR(250),
+								  @nAutorizacion tinyint
+								  							 								  ) AS
+	BEGIN
+	DECLARE @IdPersona BIGINT
+	
+		INSERT INTO PERSONA (nombre ,apMaterno, apPaterno,
+		fechaNaciemiento,telefono,correo,fechaRegistro)
+		VALUES (@Nombre,@apMaterno,@apPaterno,Cast(@FechaNacimiento AS DATE),
+		@telefono,@correo,GETDATE())
+	SET @IdPersona = dbo.ObtenerIdHolder()
+	EXEC dbo.LiberarHolder
+
+	DECLARE @IdCredencial BIGINT
+	
+		INSERT INTO Credencial (usuario,contrasenia,nivelAutorizacion,estatus) VALUES (@usuario,@contrasenia,@nAutorizacion,1)
+		
+
+	SET @IdCredencial = dbo.ObtenerIdHolder()
+	EXEC dbo.LiberarHolder
+	IF @nAutorizacion = 1 
+	BEGIN
+		DECLARE @xmladmin xml
+		DECLARE @mensajeadmin xml
+		DECLARE @idAdministrador bigint
+
+		INSERT INTO Administrador (idPersona,idCredencial) VALUES (@IdPersona,@IdCredencial)
+
+		SELECT @idAdministrador= idAdministrador FROM Administrador WHERE idPersona = @IdPersona
+		SET @xmladmin = '<Mensaje></Mensaje>'
+
+		SET @mensajeadmin = (SELECT estatus FROM dbo.Credencial as tblCredencial LEFT JOIN dbo.Administrador as tblAdministrador ON tblCredencial.idCredencial= tblAdministrador.idCredencial  
+		WHERE tblAdministrador.idPersona = @IdPersona FOR XML PATH(''),ELEMENTS)
+
+		SET @xmladmin.modify('insert sql:variable("@mensajeadmin") as last into (/Mensaje)[1]')
+		SELECT @xmladmin AS Respuesta
+	END
+	ELSE IF @nAutorizacion = 2
+	BEGIN 
+		DECLARE @xmlpsicologo xml
+		DECLARE @mensajepsicologo xml
+		DECLARE @idPsicologo bigint
+		INSERT INTO Psicologo(idPersona,idCredencial) VALUES (@IdPersona,@IdCredencial)		
+
+		SELECT @idPsicologo= idPsicologo FROM Psicologo WHERE idPersona = @IdPersona
+		SET @xmlpsicologo = '<Mensaje></Mensaje>'
+
+		SET @mensajepsicologo = (SELECT estatus FROM dbo.Credencial as tblCredencial LEFT JOIN dbo.Psicologo as tblPsicologo ON tblCredencial.idCredencial= tblPsicologo.idCredencial  
+		WHERE tblPsicologo.idPersona = @IdPersona FOR XML PATH(''),ELEMENTS)
+
+		SET @xmlpsicologo.modify('insert sql:variable("@mensajepsicologo") as last into (/Mensaje)[1]')
+		SELECT @xmlpsicologo AS Respuesta
+	END
+	ELSE IF @nAutorizacion = 3
+	BEGIN 
+		DECLARE @xmlmaestro xml
+		DECLARE @mensajemaestro xml
+		DECLARE @idMaestro bigint
+		INSERT INTO Maestro (idPersona,idCredencial) VALUES (@IdPersona,@IdCredencial)
+		
+
+		SELECT @idmaestro= idMaestro FROM Maestro WHERE idPersona = @IdPersona
+		SET @xmlmaestro = '<Mensaje></Mensaje>'
+
+		SET @mensajemaestro = (SELECT estatus FROM dbo.Credencial as tblCredencial LEFT JOIN dbo.Maestro as tblMaestro ON tblCredencial.idCredencial= tblMaestro.idCredencial  
+		WHERE tblmaestro.idPersona = @IdPersona FOR XML PATH(''),ELEMENTS)
+
+		SET @xmlmaestro.modify('insert sql:variable("@mensajemaestro") as last into (/Mensaje)[1]')
+		SELECT @xmlmaestro AS Respuesta
+	END	
+
+	END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[InsertarExpediente]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[InsertarExpediente](
+	-- Add the parameters for the stored procedure here
+--@IdAlumno INT,								  								 
+								  --Alumno,
+								  @idAlumno bigint,
+								  @antecedentesClinicos text,
+								  @descripcion text,								  								  								  								  								  
+								  @observaciones text
+								  ) AS
+	BEGIN
+	DECLARE @IdPersona BIGINT
+	DECLARE @ExpedienteXML XML
+	DECLARE @AlumnoXML XML
+	
+		INSERT INTO Expediente (idAlumno ,antecedentesClinicos, descripcion,
+		observaciones)
+		VALUES (@idAlumno,@antecedentesClinicos,@descripcion,@observaciones)
+
+	DECLARE @xml xml
+	DECLARE @mensaje xml
+
+	SELECT @idAlumno= idAlumno FROM Alumno WHERE idPersona = @IdPersona
+	SET @xml = '<Alumnos><Alumno></Alumno><Expediente></Expediente></Alumnos>'
+
+	SELECT @ExpedienteXML=(
+	SELECT TOP 1 *
+	FROM dbo.Expediente
+	ORDER BY idExpediente DESC
+	FOR XML PATH(''), ELEMENTS)
+
+	SET @AlumnoXML = (
+	SELECT *
+	FROM dbo.Alumno
+	WHERE @idAlumno = idAlumno
+	FOR XML PATH(''), ELEMENTS)
+
+	SET @xml.modify('insert sql:variable("@ExpedienteXML") as last into (/Alumnos/Expediente)[1]')
+	SET @xml.modify('insert sql:variable("@AlumnoXML") as last into (/Alumnos/Alumno)[1]')
+
+	SELECT @xml AS Respuesta
+
+	END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[LiberarHolder]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[LiberarHolder]
+AS 
+BEGIN
+SET NOCOUNT ON;
+	DELETE FROM dbo.ID_HOLDER
+	WHERE sesi_id = @@SPID
+	END
+
+GO
+/****** Object:  StoredProcedure [dbo].[ModificarAlumno]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[ModificarAlumno]
+	@idPersona bigint,
+	@Nombre varchar(100),
+	@apPaterno varchar(50),
+	@apMaterno varchar(50),
+	@fechaNacimiento date,
+	@telefono varchar(15),
+	@correo varchar(250),
+	@idPersonaT bigint,
+	@NombreT varchar(100),
+	@apPaternoT varchar(50),
+	@apMaternoT varchar(50),
+	@fechaNacimientoT date,
+	@telefonoT varchar(15),
+	@correoT varchar(250)
+
+AS
+BEGIN
+
+	update Persona set nombre = @Nombre, apPaterno = @apPaterno, apMaterno = @apMaterno, fechaNaciemiento = @fechaNacimiento, telefono = @telefono, correo = @correo
+	where idPersona =  @idPersona;
+	
+	update Persona set nombre = @NombreT, apPaterno = @apPaternoT, apMaterno = @apMaternoT, fechaNaciemiento = @fechaNacimientoT, telefono = @telefonoT, correo = @correoT
+	where idPersona =  @idPersonaT;
+
+
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[ModificarEmpleado]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[ModificarEmpleado]
+	@idPersona bigint,
+	@Nombre varchar(100),
+	@apPaterno varchar(50),
+	@apMaterno varchar(50),
+	@fechaNacimiento date,
+	@telefono varchar(15),
+	@correo varchar(250),
+	@usuario varchar(50),
+	@idCredencial bigint,
+	@contrasenia varchar(250),
+	@nAutorizacion tinyint
+AS
+BEGIN
+
+	update Persona set nombre = @Nombre, apPaterno = @apPaterno, apMaterno = @apMaterno, fechaNaciemiento = @fechaNacimiento, telefono = @telefono, correo = @correo
+	where idPersona =  @idPersona;
+
+	update dbo.Credencial set usuario = @usuario, contrasenia =  @contrasenia, nivelAutorizacion = @nAutorizacion 
+	where idCredencial = @idCredencial;
+
+
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[ModificarExpediente]    Script Date: 25/10/2016 11:45:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[ModificarExpediente](
+	-- Add the parameters for the stored procedure here
+--@IdAlumno INT,								  								 
+								  --Alumno,
+								  @idAlumno bigint,
+								  @antecedentesClinicos text,
+								  @descripcion text,								  								  								  								  								  
+								  @observaciones text
+								  ) AS
+	BEGIN
+	DECLARE @IdPersona BIGINT
+	DECLARE @ExpedienteXML XML
+	DECLARE @AlumnoXML XML
+	
+		UPDATE Expediente
+		SET antecedentesClinicos=@antecedentesClinicos,descripcion=@descripcion,observaciones=@observaciones
+		WHERE idAlumno = @idAlumno
+
+	DECLARE @xml xml
+	DECLARE @mensaje xml
+
+	SELECT @idAlumno= idAlumno FROM Alumno WHERE idPersona = @IdPersona
+	SET @xml = '<Alumnos><Alumno></Alumno><Expediente></Expediente></Alumnos>'
+
+	SELECT @ExpedienteXML=(
+	SELECT TOP 1 *
+	FROM dbo.Expediente
+	ORDER BY idExpediente DESC
+	FOR XML PATH(''), ELEMENTS)
+
+	SET @AlumnoXML = (
+	SELECT *
+	FROM dbo.Alumno
+	WHERE @idAlumno = idAlumno
+	FOR XML PATH(''), ELEMENTS)
+
+	SET @xml.modify('insert sql:variable("@ExpedienteXML") as last into (/Alumnos/Expediente)[1]')
+	SET @xml.modify('insert sql:variable("@AlumnoXML") as last into (/Alumnos/Alumno)[1]')
+
+	SELECT @xml AS Respuesta
+
+	END
+
+
+GO
+USE [master]
+GO
+ALTER DATABASE [AmiDown] SET  READ_WRITE 
+GO
