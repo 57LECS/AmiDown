@@ -23,29 +23,33 @@ public class Borramesoyunaprueba {
         try 
         {
             personaAlumno= new Persona();
-            personaAlumno.setNombre("Manuel");
-            personaAlumno.setaMaterno("Castro");
-            personaAlumno.setaPaterno("Miranda");
-            personaAlumno.setCorreo("manolomirandac@hotmail.com");
-            personaAlumno.setTelefono("477456546");
+            personaAlumno.setIdPersona(2);            
+            personaAlumno.setNombre("Manuelasasasasasas1");
+            personaAlumno.setaPaterno("Mirandsssc");
+            personaAlumno.setaMaterno("Castrsssssa");     
             personaAlumno.setFechaNacimiento("06/06/1997");
+            personaAlumno.setTelefono("477456546a");
+            personaAlumno.setCorreo("manolomirandaasc@hotmail.com");
             
             personaTutor= new Persona();
-            personaTutor.setNombre("Manuel Padre");
-            personaTutor.setaMaterno("Castro");
+            personaTutor.setIdPersona(2);
+            personaTutor.setNombre("Manuel Padre");            
             personaTutor.setaPaterno("Miranda");
-            personaTutor.setFechaNacimiento("06/06/1997");
+            personaTutor.setaMaterno("Castro");
+            personaTutor.setFechaNacimiento("06/06/1967");
             personaTutor.setTelefono("477456546");
             personaTutor.setCorreo("manolomirandacpadre@hotmail.com");
                     
             alumno.setPersona(personaAlumno);
             t.setPersona(personaTutor);
             alumno.setTutor(t);
-            ca.insertarAlumno(alumno);
+            //ca.insertarAlumno(alumno);
+            //ca.modificarAlumno(alumno);
+            ca.eliminarAlumno(alumno);
             System.out.println("El usuario se ha ingresado");
         }
         catch(Exception e){
-            
+            System.out.println(e.getMessage());
         }
     }
 }

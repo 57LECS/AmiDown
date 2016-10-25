@@ -48,7 +48,7 @@ public class ControladorAlumno {
     }
     
     public void modificarAlumno(Alumno al) throws Exception{
-       /* String query = "EXEC dbo.InsertarAlumno ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+       String query = "EXEC dbo.ModificarAlumno ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
         //String query ="EXEC dbo.InsertarAlumno @Matricula = "+al.getMatricula()+",@FechaIngreso ="+al.getFechaIngreso()",@Generacion ="+al.getGeneracion()+",@Estatus"+al.getStatus()+",@Nombre ="+al.getPersona().getNombre()+",@ApellidoPaterno="+al.getPersona().;
         ConexionSQLServer connSQLServer = new ConexionSQLServer();
         Connection conn = connSQLServer.abrir();
@@ -56,24 +56,44 @@ public class ControladorAlumno {
         
         //Llenamos los parámetro de la consulta 
         //Parametros del alumno
-        pstmt.setString(1, al.getPersona().getNombre());
-        pstmt.setString(2, al.getPersona().getaPaterno());
+        pstmt.setLong(1, al.getPersona().getIdPersona());
+        pstmt.setString(2, al.getPersona().getNombre());
         pstmt.setString(3, al.getPersona().getaPaterno());
-        pstmt.setString(4, al.getPersona().getCorreo());
-        pstmt.setString(5, al.getPersona().getTelefono());
-        pstmt.setString(6, al.getPersona().getFechaNacimiento());
+        pstmt.setString(4, al.getPersona().getaMaterno());
+        pstmt.setString(5, al.getPersona().getFechaNacimiento());
+        pstmt.setString(6, al.getPersona().getTelefono());
+        pstmt.setString(7, al.getPersona().getCorreo());
+        
         //Parametros del tutor
-        pstmt.setString(7, al.getTutor().getPersona().getNombre());
-        pstmt.setString(8, al.getTutor().getPersona().getaPaterno());
-        pstmt.setString(9, al.getTutor().getPersona().getaMaterno());
-        pstmt.setString(10, al.getTutor().getPersona().getFechaNacimiento());  
-        pstmt.setString(11, al.getTutor().getPersona().getTelefono());  
-        pstmt.setString(12, al.getTutor().getPersona().getCorreo());        
+        pstmt.setLong(8, al.getTutor().getPersona().getIdPersona());
+        pstmt.setString(9, al.getTutor().getPersona().getNombre());
+        pstmt.setString(10, al.getTutor().getPersona().getaPaterno());
+        pstmt.setString(11, al.getTutor().getPersona().getaMaterno());
+        pstmt.setString(12, al.getTutor().getPersona().getFechaNacimiento());  
+        pstmt.setString(13, al.getTutor().getPersona().getTelefono());  
+        pstmt.setString(14, al.getTutor().getPersona().getCorreo());        
                 
         pstmt.executeUpdate(); 
         
         pstmt.close();
-        connSQLServer.cerrar();*/
+        connSQLServer.cerrar();
+    }
+    
+    public void eliminarAlumno(Alumno al) throws Exception{
+       String query = "EXEC dbo.EliminarAlumno ?";
+        //String query ="EXEC dbo.InsertarAlumno @Matricula = "+al.getMatricula()+",@FechaIngreso ="+al.getFechaIngreso()",@Generacion ="+al.getGeneracion()+",@Estatus"+al.getStatus()+",@Nombre ="+al.getPersona().getNombre()+",@ApellidoPaterno="+al.getPersona().;
+        ConexionSQLServer connSQLServer = new ConexionSQLServer();
+        Connection conn = connSQLServer.abrir();
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        
+        //Llenamos los parámetro de la consulta 
+        //Parametros del alumno
+        pstmt.setLong(1, al.getPersona().getIdPersona());        
+                
+        pstmt.executeUpdate(); 
+        
+        pstmt.close();
+        connSQLServer.cerrar();
     }
     
 }
